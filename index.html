@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LunarScribe Store</title>
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+    (function(){
+       emailjs.init({
+         publicKey: "tckJkNIPxGvWQ5Xwt",
+       });
+    })();
+ </script>
+ 
+
+
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { margin: 0; background: #f4f4f4; color: #333; }
+
+    header {
+      background-color: #072f7c;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    .search-bar {
+      margin: 1rem auto;
+      text-align: center;
+    }
+
+    .search-bar input {
+      padding: 0.6rem;
+      width: 80%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .store {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .card {
+        width: 76%;
+        height: 100%;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .card:hover { transform: scale(1.02); }
+
+    .card img {
+      width: 100%;
+      height: 60%;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .title { font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem; }
+    .price { color: #00a86b; margin-bottom: 0.8rem; }
+
+    .buy-btn, .pay-btn, .back-btn, .confirm-btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: #0053f8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .invoice, .success, .wallet-page {
+      max-width: 500px;
+      margin: 3rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 { text-align: center; }
+
+    .detail, .field {
+      margin: 1rem 0;
+      font-size: 1.1rem;
+    }
+
+    select, input[type="tel"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.4rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .success-message {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: green;
+      text-align: center;
+    }
+
+    .countdown {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>LunarScribe Novel Store</h1>
+</header>
+
+<div id="app"></div>
+
+<script>
+  let invoiceCounter = 1;
+  let currentOrder = {};
+
+  const novels = [
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Mafia Wife", price: "$12.50", image: "https://source.unsplash.com/featured/?moon,book" },
+    { title: "The Forgotten Realm", price: "$11.00", image: "https://source.unsplash.com/featured/?fantasy,book" },
+    { title: "Crimson Dawn", price: "$8.99", image: "https://source.unsplash.com/featured/?dawn,book" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
+    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" }
+  ];
+
+  const app = document.getElementById('app');
+
+  function renderStore() {
+    app.innerHTML = `
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search novel title...">
+      </div>
+      <div class="store" id="storeContainer"></div>
+    `;
+
+    const storeContainer = document.getElementById("storeContainer");
+    const searchInput = document.getElementById("searchInput");
+
+    function displayNovels(filteredNovels) {
+      storeContainer.innerHTML = "";
+      filteredNovels.forEach(novel => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${novel.image}" alt="${novel.title}">
+          <div class="card-content">
+            <div class="title">${novel.title}</div>
+            <div class="price">${novel.price}</div>
+            <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${novel.price}')">Buy</button>
+          </div>
+        `;
+        storeContainer.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      const filtered = novels.filter(n => n.title.toLowerCase().includes(query));
+      displayNovels(filtered);
+    });
+
+    displayNovels(novels);
+  }
+
+  function renderInvoice(title, price) {
+    currentOrder = { title, price };
+
+    app.innerHTML = `
+      <div class="invoice">
+        <h2>Invoice Pembayaran</h2>
+        <div class="detail"><strong>Judul:</strong> ${title}</div>
+        <div class="detail"><strong>Harga:</strong> ${price}</div>
+
+        <div class="field">
+          <label>Metode Pembayaran:</label>
+          <select id="paymentMethod">
+            <option value="DANA">DANA</option>
+            <option value="ShopeePay">ShopeePay</option>
+            <option value="BRI">Bank Transfer (BRI)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Nomor Telepon:</label>
+          <input type="tel" id="phoneNumber" placeholder="08xxxxxxxxxx" required>
+        </div>
+
+        <button class="pay-btn" onclick="handlePayment()">Bayar Sekarang</button>
+        <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
+      </div>
+    `;
+  }
+
+  function handlePayment() {
+    const method = document.getElementById("paymentMethod").value;
+    const phone = document.getElementById("phoneNumber").value;
+
+    if (phone.trim() === "") {
+      alert("Masukkan nomor telepon!");
+      return;
+    }
+
+    currentOrder.phone = phone;
+    currentOrder.method = method;
+
+    if (method === "DANA") {
+      renderDanaPage();
+    } else {
+      showSuccess();
+    }
+  }
+
+  function compressImage(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var MAX_WIDTH = 800;  // Tentukan lebar maksimal
+            var MAX_HEIGHT = 800; // Tentukan tinggi maksimal
+            var width = img.width;
+            var height = img.height;
+
+            // Jika gambar lebih besar dari ukuran maksimum, sesuaikan
+            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+                if (width > height) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                } else {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+
+            // Tentukan ukuran kanvas sesuai ukuran gambar
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Konversi gambar menjadi data URL dan kirimkan ke callback
+            canvas.toBlob(function(blob) {
+                callback(blob);  // Blob gambar yang telah dikompres
+            }, 'image/jpeg', 0.7);  // Mengatur kualitas kompresi
+        };
+        img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+}
+
+  // Inisialisasi EmailJS dengan User ID kamu
+
+// Fungsi untuk mengirim email
+function sendEmail() {
+    const templateParams = {
+  title: currentOrder.title,       // judul novel
+  price: currentOrder.price,       // harga novel
+  method: currentOrder.method,     // metode pembayaran
+  phone: currentOrder.phone,       // nomor telepon
+  invoice: invoiceNumber,          // nomor invoice
+  imageUrl: imageUrl               // link gambar bukti transfer
+};
+
+emailjs.send("service_lunarscribe", "template_713vn0i", templateParams)
+  .then((response) => {
+    console.log("Email sent!", response);
+  })
+  .catch((error) => {
+    console.error("Failed to send email", error);
+  });
+
+}
+
+// Fungsi untuk menampilkan halaman Dana dan upload screenshot
+function renderDanaPage() {
+  const amount = currentOrder.price;
+  app.innerHTML = `
+    <div class="wallet-page">
+      <h2>Pembayaran via DANA</h2>
+      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
+      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
+      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <input type="file" id="screenshot" accept="image/*" />
+      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+    </div>
+  `;
+}
+
+// Fungsi untuk mengirim bukti transfer dan data invoice ke email
+function submitProof() {
+  const fileInput = document.getElementById("screenshot");
+  if (fileInput.files.length === 0) {
+    alert("Upload screenshot transfer dulu ya!");
+    return;
+  }
+
+  const file = fileInput.files[0];
+  const reader = new FileReader();
+  reader.onloadend = function () {
+    const base64Image = reader.result.split(",")[1];
+
+    const CLIENT_ID = "5d17f78f3a9cfc4"; // Client ID Imgur kamu
+
+    fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: {
+        Authorization: "Client-ID " + CLIENT_ID,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image: base64Image,
+        type: "base64",
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const imageUrl = data.data.link;
+        const invoiceNumber = "#A" + String(invoiceCounter).padStart(7, "0");
+        invoiceCounter++;
+
+        const templateParams = {
+          title: currentOrder.title,
+          price: currentOrder.price,
+          method: currentOrder.method,
+          phone: currentOrder.phone,
+          invoice: invoiceNumber,
+          imageUrl: imageUrl // pakai link dari Imgur
+        };
+
+        emailjs.send('service_lunarscribe', 'template_713vn0i', templateParams)
+          .then(() => {
+            showSuccess(invoiceNumber);
+          })
+          .catch((error) => {
+            console.error("Failed to send email", error);
+            alert("Gagal mengirim email. Coba lagi.");
+          });
+
+      } else {
+        alert("Gagal upload gambar ke Imgur.");
+      }
+    })
+    .catch(err => {
+      console.error("Upload error:", err);
+      alert("Upload gambar gagal.");
+    });
+  };
+
+  reader.readAsDataURL(file);
+}
+
+
+// Fungsi untuk menampilkan halaman invoice sukses
+function showSuccess(invoiceNumber) {
+  app.innerHTML = `
+    <div class="success">
+      <h2>Invoice Sukses</h2>
+      <div class="detail"><strong>Nomor Pembayaran:</strong> ${invoiceNumber}</div>
+      <div class="detail"><strong>Judul:</strong> ${currentOrder.title}</div>
+      <div class="detail"><strong>Harga:</strong> ${currentOrder.price}</div>
+      <div class="detail"><strong>Metode:</strong> ${currentOrder.method}</div>
+      <div class="detail"><strong>No. Telepon:</strong> ${currentOrder.phone}</div>
+      <div class="success-message">✅ Bukti transfer berhasil dikirim!</div>
+      <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
+    </div>
+  `;
+}
+
+  renderStore();
+</script>
+
+</body>
+</html>
