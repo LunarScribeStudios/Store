@@ -242,6 +242,16 @@
     } else {
       showSuccess();
     }
+    if (method === "ShopeePay") {
+      renderShopeePage();
+    } else {
+      showSuccess();
+    }
+    if (method === "BRI") {
+      renderBRIPage();
+    } else {
+      showSuccess();
+    }
   }
 
   function compressImage(file, callback) {
@@ -311,6 +321,36 @@ function renderDanaPage() {
   app.innerHTML = `
     <div class="wallet-page">
       <h2>Pembayaran via DANA</h2>
+      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
+      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
+      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <input type="file" id="screenshot" accept="image/*" />
+      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+    </div>
+  `;
+}
+
+// Fungsi untuk menampilkan halaman Shopee Pay dan upload screenshot
+function renderShopeePage() {
+  const amount = currentOrder.price;
+  app.innerHTML = `
+    <div class="wallet-page">
+      <h2>Pembayaran via Shopee Pay</h2>
+      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
+      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
+      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <input type="file" id="screenshot" accept="image/*" />
+      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+    </div>
+  `;
+}
+
+// Fungsi untuk menampilkan halaman BRI dan upload screenshot
+function renderBRIPage() {
+  const amount = currentOrder.price;
+  app.innerHTML = `
+    <div class="wallet-page">
+      <h2>Pembayaran via Bank Transfer (BRI)</h2>
       <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
       <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
       <div class="detail">Upload bukti transfer (screenshot):</div>
