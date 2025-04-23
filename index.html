@@ -237,20 +237,14 @@
     currentOrder.phone = phone;
     currentOrder.method = method;
 
-    if (method === "DANA") {
-      renderDanaPage();
-    } else {
-      showSuccess();
-    }
-    if (method === "ShopeePay") {
-      renderShopeePage();
-    } else {
-      showSuccess();
-    }
-    if (method === "BRI") {
-      renderBRIPage();
-    } else {
-      showSuccess();
+    if (method === "DANA" || method === "ShopeePay" || method === "BRI") {
+      if (method === "DANA") {
+        renderDanaPage();
+      } else if (method === "ShopeePay") {
+        renderShopeePage();
+      } else if (method === "BRI") {
+        renderBRIPage();
+      }
     }
   }
 
