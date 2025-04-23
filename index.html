@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LunarScribe Store</title>
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-    (function(){
-       emailjs.init({
-         publicKey: "tckJkNIPxGvWQ5Xwt",
-       });
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+  </script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init({
+        publicKey: "tckJkNIPxGvWQ5Xwt",
+      });
     })();
- </script>
- 
+  </script>
+
 
 
   <style>
-    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { margin: 0; background: #f4f4f4; color: #333; }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
 
     header {
       background-color: #072f7c;
@@ -49,16 +57,25 @@
     }
 
     .card {
-        width: 76%;
-        height: 100%;
+      position: relative;
+      width: 210px;
+      /* atau ukuran yang kamu pakai */
+      height: 100%;
       background: white;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.2s;
+
+      /* tambahkan jarak antar kartu */
+      margin: 20px;
+      /* ini kira-kira jarak yang enak dilihat */
     }
 
-    .card:hover { transform: scale(1.02); }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
 
     .card img {
       width: 100%;
@@ -66,18 +83,31 @@
     }
 
     .card-content {
-        padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 45%; /* sisa tinggi dari gambar */
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 45%;
+      /* sisa tinggi dari gambar */
     }
 
-    .title { font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem; }
-    .price { color: #00a86b; margin-bottom: 0.8rem; margin-top: auto;}
+    .title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
 
-    .buy-btn, .pay-btn, .back-btn, .confirm-btn {
-        margin-top: auto;
+    .price {
+      color: #00a86b;
+      margin-bottom: 0.8rem;
+      margin-top: auto;
+    }
+
+    .buy-btn,
+    .pay-btn,
+    .back-btn,
+    .confirm-btn {
+      margin-top: auto;
       display: block;
       width: 100%;
       padding: 0.75rem;
@@ -90,23 +120,29 @@
       cursor: pointer;
     }
 
-    .invoice, .success, .wallet-page {
+    .invoice,
+    .success,
+    .wallet-page {
       max-width: 500px;
       margin: 3rem auto;
       background: white;
       padding: 2rem;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    h2 { text-align: center; }
+    h2 {
+      text-align: center;
+    }
 
-    .detail, .field {
+    .detail,
+    .field {
       margin: 1rem 0;
       font-size: 1.1rem;
     }
 
-    select, input[type="tel"] {
+    select,
+    input[type="tel"] {
       width: 100%;
       padding: 0.5rem;
       margin-top: 0.4rem;
@@ -126,80 +162,264 @@
       font-weight: bold;
       margin-top: 1rem;
     }
+
+    .discount-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      padding: 4px 8px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      display: none;
+      z-index: 2;
+    }
+
+    .discount-badge.show {
+      display: inline-block;
+    }
+
+    .old-price {
+      color: red;
+      text-decoration: line-through;
+      font-size: 0.85rem;
+    }
+
+    .card-content .author,
+    .card-content .character,
+    .card-content .year,
+    .card-content .synopsis {
+      margin-top: 1px;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    .card-content .synopsis {
+      font-style: italic;
+      color: #555;
+      max-height: 60px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>LunarScribe Novel Store</h1>
-</header>
+  <header>
+    <h1>LunarScribe Novel Store</h1>
+  </header>
 
-<div id="app"></div>
+  <div id="app"></div>
 
-<script>
-  let invoiceCounter = 1;
-  let currentOrder = {};
+  <script>
+    let invoiceCounter = 1;
+    let currentOrder = {};
 
-  const novels = [
-    { title: "Only You", price: "20.000,00", image: "OnlyYou.jpg" },
-    { title: "Mafia Wife", price: "25.000,00", image: "MW.png" },
-    { title: "Istri Kecil Ceo", price: "25.000,00", image: "IKC.png" },
-    { title: "Turned Into Love  Mafia", price: "25.000,00", image: "TILM.png" },
-    { title: "Mafia Fell in love", price: "25.000,00", image: "MFIL.png" },
-    { title: "The Mafia", price: "25.000,00", image: "TM.png" },
-    { title: "Obsession Mafia", price: "50.000,00", image: "OM.png" },
-    { title: "Penyesalan Mafia  Arogan", price: "25.000,00", image: "PMA.png" },
-    { title: "Daddy's Ken", price: "25.000,00", image: "DK.png" },
-    { title: "Get you", price: "25.000,00", image: "GY.png" },
-    { title: "Penyesalan", price: "20.000,00", image: "P.png" },
-    { title: "Along With Time", price: "15.000,00", image: "AWT.png" },
-    { title: "True Love", price: "15.000,00", image: "TL.png" },
-    { title: "Dipermainkan Takdir", price: "10.000,00", image: "DT.png" }
-  ];
+    const novels = [
+      {
+        title: "Only You",
+        price: "25.000,00",
+        image: "OnlyYou.jpg",
+        discountedPrice: "20.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Mafia Wife",
+        price: "30.000,00",
+        image: "MW.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Istri Kecil Ceo",
+        price: "30.000,00",
+        image: "IKC.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Turned Into Love  Mafia",
+        price: "30.000,00",
+        image: "TILM.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Mafia Fell in love",
+        price: "30.000,00",
+        image: "MFIL.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "The Mafia",
+        price: "30.000,00",
+        image: "TM.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Obsession Mafia",
+        price: "30.000,00",
+        image: "OM.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Suga & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Penyesalan Mafia  Arogan",
+        price: "30.000,00",
+        image: "PMA.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Daddy's Ken",
+        price: "30.000,00",
+        image: "DK.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Get you",
+        price: "30.000,00",
+        image: "GY.png",
+        discountedPrice30: "25.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Penyesalan",
+        price: "25.000,00",
+        image: "P.png",
+        discountedPrice: "20.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Along With Time",
+        price: "18.750,00",
+        image: "AWT.png",
+        discountedPrice: "15.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "True Love",
+        price: "18.750,00",
+        image: "TL.png",
+        discountedPrice: "15.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
+        title: "Dipermainkan Takdir",
+        price: "12.500,00",
+        image: "DT.png",
+        discountedPrice: "10.000,00",
+        author: "Bear v",
+        mainCharacter: "Taehyung & Anda",
+        releaseYear: 2025,
+        synopsis: "..."
+      }
+    ];
 
-  const app = document.getElementById('app');
+    const app = document.getElementById('app');
 
-  function renderStore() {
-    app.innerHTML = `
+    function renderStore() {
+      app.innerHTML = `
       <div class="search-bar">
         <input type="text" id="searchInput" placeholder="Search novel title...">
       </div>
       <div class="store" id="storeContainer"></div>
     `;
 
-    const storeContainer = document.getElementById("storeContainer");
-    const searchInput = document.getElementById("searchInput");
+      const storeContainer = document.getElementById("storeContainer");
+      const searchInput = document.getElementById("searchInput");
 
-    function displayNovels(filteredNovels) {
-      storeContainer.innerHTML = "";
-      filteredNovels.forEach(novel => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <img src="${novel.image}" alt="${novel.title}">
-          <div class="card-content">
-            <div class="title">${novel.title}</div>
-            <div class="price">${novel.price}</div>
-            <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${novel.price}')">Buy</button>
-          </div>
-        `;
-        storeContainer.appendChild(card);
+      function displayNovels(filteredNovels) {
+        storeContainer.innerHTML = "";
+        filteredNovels.forEach(novel => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+  <div class="discount-badge ${novel.discountedPrice ? 'show' : 'hide'}">Disc 80%</div>
+  <div class="discount-badge ${novel.discountedPrice30 ? 'show' : 'hide'}">Disc 83%</div>
+  <img src="${novel.image}" alt="${novel.title}">
+  <div class="card-content">
+    <div class="title">${novel.title}</div>
+    <div class="author"><strong>Penulis:</strong> ${novel.author || '-'}</div>
+    <div class="character"><strong>Tokoh Utama:</strong> ${novel.mainCharacter || '-'}</div>
+    <div class="year"><strong>Rilis:</strong> ${novel.releaseYear || '-'}</div>
+    <div class="synopsis"><strong>Sinopsis:</strong> ${novel.synopsis || '-'}</div>
+    ${novel.discountedPrice || novel.discountedPrice30
+              ? `
+      <div class="old-price">Rp ${novel.price}</div>
+      <div class="price">Rp ${novel.discountedPrice || novel.discountedPrice30}</div>
+      `
+              : `
+      <div class="price">Rp ${novel.price}</div>
+      `
+            }
+    <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${novel.discountedPrice || novel.discountedPrice30 || novel.price}')">Buy</button>
+  </div>
+`;
+
+
+          storeContainer.appendChild(card);
+        });
+      }
+
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+        const filtered = novels.filter(n => n.title.toLowerCase().includes(query));
+        displayNovels(filtered);
       });
+
+      displayNovels(novels);
     }
 
-    searchInput.addEventListener("input", () => {
-      const query = searchInput.value.toLowerCase();
-      const filtered = novels.filter(n => n.title.toLowerCase().includes(query));
-      displayNovels(filtered);
-    });
+    function renderInvoice(title, price) {
+      currentOrder = { title, price };
 
-    displayNovels(novels);
-  }
-
-  function renderInvoice(title, price) {
-    currentOrder = { title, price };
-
-    app.innerHTML = `
+      app.innerHTML = `
       <div class="invoice">
         <h2>Invoice Pembayaran</h2>
         <div class="detail"><strong>Judul:</strong> ${title}</div>
@@ -223,96 +443,96 @@
         <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
       </div>
     `;
-  }
-
-  function handlePayment() {
-    const method = document.getElementById("paymentMethod").value;
-    const phone = document.getElementById("phoneNumber").value;
-
-    if (phone.trim() === "") {
-      alert("Masukkan nomor telepon!");
-      return;
     }
 
-    currentOrder.phone = phone;
-    currentOrder.method = method;
+    function handlePayment() {
+      const method = document.getElementById("paymentMethod").value;
+      const phone = document.getElementById("phoneNumber").value;
 
-    if (method === "DANA" || method === "ShopeePay" || method === "BRI") {
-      if (method === "DANA") {
-        renderDanaPage();
-      } else if (method === "ShopeePay") {
-        renderShopeePage();
-      } else if (method === "BRI") {
-        renderBRIPage();
+      if (phone.trim() === "") {
+        alert("Masukkan nomor telepon!");
+        return;
+      }
+
+      currentOrder.phone = phone;
+      currentOrder.method = method;
+
+      if (method === "DANA" || method === "ShopeePay" || method === "BRI") {
+        if (method === "DANA") {
+          renderDanaPage();
+        } else if (method === "ShopeePay") {
+          renderShopeePage();
+        } else if (method === "BRI") {
+          renderBRIPage();
+        }
       }
     }
-  }
 
-  function compressImage(file, callback) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
+    function compressImage(file, callback) {
+      var reader = new FileReader();
+      reader.onload = function (event) {
         var img = new Image();
-        img.onload = function() {
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var MAX_WIDTH = 800;  // Tentukan lebar maksimal
-            var MAX_HEIGHT = 800; // Tentukan tinggi maksimal
-            var width = img.width;
-            var height = img.height;
+        img.onload = function () {
+          var canvas = document.createElement('canvas');
+          var ctx = canvas.getContext('2d');
+          var MAX_WIDTH = 800;  // Tentukan lebar maksimal
+          var MAX_HEIGHT = 800; // Tentukan tinggi maksimal
+          var width = img.width;
+          var height = img.height;
 
-            // Jika gambar lebih besar dari ukuran maksimum, sesuaikan
-            if (width > MAX_WIDTH || height > MAX_HEIGHT) {
-                if (width > height) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                } else {
-                    width *= MAX_HEIGHT / height;
-                    height = MAX_HEIGHT;
-                }
+          // Jika gambar lebih besar dari ukuran maksimum, sesuaikan
+          if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+            if (width > height) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            } else {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
             }
+          }
 
-            // Tentukan ukuran kanvas sesuai ukuran gambar
-            canvas.width = width;
-            canvas.height = height;
-            ctx.drawImage(img, 0, 0, width, height);
+          // Tentukan ukuran kanvas sesuai ukuran gambar
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
 
-            // Konversi gambar menjadi data URL dan kirimkan ke callback
-            canvas.toBlob(function(blob) {
-                callback(blob);  // Blob gambar yang telah dikompres
-            }, 'image/jpeg', 0.7);  // Mengatur kualitas kompresi
+          // Konversi gambar menjadi data URL dan kirimkan ke callback
+          canvas.toBlob(function (blob) {
+            callback(blob);  // Blob gambar yang telah dikompres
+          }, 'image/jpeg', 0.7);  // Mengatur kualitas kompresi
         };
         img.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-}
+      };
+      reader.readAsDataURL(file);
+    }
 
-  // Inisialisasi EmailJS dengan User ID kamu
+    // Inisialisasi EmailJS dengan User ID kamu
 
-// Fungsi untuk mengirim email
-function sendEmail() {
-    const templateParams = {
-  title: currentOrder.title,       // judul novel
-  price: currentOrder.price,       // harga novel
-  method: currentOrder.method,     // metode pembayaran
-  phone: currentOrder.phone,       // nomor telepon
-  invoice: invoiceNumber,          // nomor invoice
-  imageUrl: imageUrl               // link gambar bukti transfer
-};
+    // Fungsi untuk mengirim email
+    function sendEmail() {
+      const templateParams = {
+        title: currentOrder.title,       // judul novel
+        price: currentOrder.price,       // harga novel
+        method: currentOrder.method,     // metode pembayaran
+        phone: currentOrder.phone,       // nomor telepon
+        invoice: invoiceNumber,          // nomor invoice
+        imageUrl: imageUrl               // link gambar bukti transfer
+      };
 
-emailjs.send("service_lunarscribe", "template_713vn0i", templateParams)
-  .then((response) => {
-    console.log("Email sent!", response);
-  })
-  .catch((error) => {
-    console.error("Failed to send email", error);
-  });
+      emailjs.send("service_lunarscribe", "template_713vn0i", templateParams)
+        .then((response) => {
+          console.log("Email sent!", response);
+        })
+        .catch((error) => {
+          console.error("Failed to send email", error);
+        });
 
-}
+    }
 
-// Fungsi untuk menampilkan halaman Dana dan upload screenshot
-function renderDanaPage() {
-  const amount = currentOrder.price;
-  app.innerHTML = `
+    // Fungsi untuk menampilkan halaman Dana dan upload screenshot
+    function renderDanaPage() {
+      const amount = currentOrder.price;
+      app.innerHTML = `
     <div class="wallet-page">
       <h2>Pembayaran via DANA</h2>
       <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
@@ -322,12 +542,12 @@ function renderDanaPage() {
       <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
     </div>
   `;
-}
+    }
 
-// Fungsi untuk menampilkan halaman Shopee Pay dan upload screenshot
-function renderShopeePage() {
-  const amount = currentOrder.price;
-  app.innerHTML = `
+    // Fungsi untuk menampilkan halaman Shopee Pay dan upload screenshot
+    function renderShopeePage() {
+      const amount = currentOrder.price;
+      app.innerHTML = `
     <div class="wallet-page">
       <h2>Pembayaran via Shopee Pay</h2>
       <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
@@ -337,12 +557,12 @@ function renderShopeePage() {
       <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
     </div>
   `;
-}
+    }
 
-// Fungsi untuk menampilkan halaman BRI dan upload screenshot
-function renderBRIPage() {
-  const amount = currentOrder.price;
-  app.innerHTML = `
+    // Fungsi untuk menampilkan halaman BRI dan upload screenshot
+    function renderBRIPage() {
+      const amount = currentOrder.price;
+      app.innerHTML = `
     <div class="wallet-page">
       <h2>Pembayaran via Bank Transfer (BRI)</h2>
       <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
@@ -352,76 +572,76 @@ function renderBRIPage() {
       <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
     </div>
   `;
-}
+    }
 
-// Fungsi untuk mengirim bukti transfer dan data invoice ke email
-function submitProof() {
-  const fileInput = document.getElementById("screenshot");
-  if (fileInput.files.length === 0) {
-    alert("Upload screenshot transfer dulu ya!");
-    return;
-  }
-
-  const file = fileInput.files[0];
-  const reader = new FileReader();
-  reader.onloadend = function () {
-    const base64Image = reader.result.split(",")[1];
-
-    const CLIENT_ID = "5d17f78f3a9cfc4"; // Client ID Imgur kamu
-
-    fetch("https://api.imgur.com/3/image", {
-      method: "POST",
-      headers: {
-        Authorization: "Client-ID " + CLIENT_ID,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        image: base64Image,
-        type: "base64",
-      }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        const imageUrl = data.data.link;
-        const invoiceNumber = "#A" + String(invoiceCounter).padStart(7, "0");
-        invoiceCounter++;
-
-        const templateParams = {
-          title: currentOrder.title,
-          price: currentOrder.price,
-          method: currentOrder.method,
-          phone: currentOrder.phone,
-          invoice: invoiceNumber,
-          imageUrl: imageUrl // pakai link dari Imgur
-        };
-
-        emailjs.send('service_lunarscribe', 'template_713vn0i', templateParams)
-          .then(() => {
-            showSuccess(invoiceNumber);
-          })
-          .catch((error) => {
-            console.error("Failed to send email", error);
-            alert("Gagal mengirim email. Coba lagi.");
-          });
-
-      } else {
-        alert("Gagal upload gambar ke Imgur.");
+    // Fungsi untuk mengirim bukti transfer dan data invoice ke email
+    function submitProof() {
+      const fileInput = document.getElementById("screenshot");
+      if (fileInput.files.length === 0) {
+        alert("Upload screenshot transfer dulu ya!");
+        return;
       }
-    })
-    .catch(err => {
-      console.error("Upload error:", err);
-      alert("Upload gambar gagal.");
-    });
-  };
 
-  reader.readAsDataURL(file);
-}
+      const file = fileInput.files[0];
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        const base64Image = reader.result.split(",")[1];
+
+        const CLIENT_ID = "5d17f78f3a9cfc4"; // Client ID Imgur kamu
+
+        fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: "Client-ID " + CLIENT_ID,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            image: base64Image,
+            type: "base64",
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              const imageUrl = data.data.link;
+              const invoiceNumber = "#A08H3417" + String(invoiceCounter).padStart(1, "0");
+              invoiceCounter++;
+
+              const templateParams = {
+                title: currentOrder.title,
+                price: currentOrder.price,
+                method: currentOrder.method,
+                phone: currentOrder.phone,
+                invoice: invoiceNumber,
+                imageUrl: imageUrl // pakai link dari Imgur
+              };
+
+              emailjs.send('service_lunarscribe', 'template_713vn0i', templateParams)
+                .then(() => {
+                  showSuccess(invoiceNumber);
+                })
+                .catch((error) => {
+                  console.error("Failed to send email", error);
+                  alert("Gagal mengirim email. Coba lagi.");
+                });
+
+            } else {
+              alert("Gagal upload gambar ke Imgur.");
+            }
+          })
+          .catch(err => {
+            console.error("Upload error:", err);
+            alert("Upload gambar gagal.");
+          });
+      };
+
+      reader.readAsDataURL(file);
+    }
 
 
-// Fungsi untuk menampilkan halaman invoice sukses
-function showSuccess(invoiceNumber) {
-  app.innerHTML = `
+    // Fungsi untuk menampilkan halaman invoice sukses
+    function showSuccess(invoiceNumber) {
+      app.innerHTML = `
     <div class="success">
       <h2>Invoice Sukses</h2>
       <div class="detail"><strong>Nomor Pembayaran:</strong> ${invoiceNumber}</div>
@@ -433,10 +653,11 @@ function showSuccess(invoiceNumber) {
       <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
     </div>
   `;
-}
+    }
 
-  renderStore();
-</script>
+    renderStore();
+  </script>
 
 </body>
+
 </html>
