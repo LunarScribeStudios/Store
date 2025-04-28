@@ -203,6 +203,96 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    .footer {
+    background: #072f7c;
+    color: #a4c6ee;
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    font-family: Arial, sans-serif;
+}
+
+.official-x {
+    margin-bottom: 20px;
+}
+
+.official-x h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px 15px;
+    border: 2px solid white;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.social-btn img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.social-btn .text-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.social-btn .text-container span {
+    font-size: 14px;
+}
+
+.social-btn .text-container .username {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.social-btn:hover {
+    background: white;
+    color: blue;
+}
+
+.share-links p {
+    margin-top: 10px;
+}
+
+.share-links img {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.footer-logo img {
+    width: 150px;
+    margin: 10px 0;
+}
+
+.footer-links a {
+    color: #a4c6ee;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.copyright {
+    margin-top: 10px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
   </style>
 </head>
 
@@ -221,11 +311,11 @@
     const novels = [
       {
         title: "1 Miliar Satu Malam",
-        price: "30.000,00",
+        price: "25.000,00",
         image: "1m1m.jpg",
-        discountedPrice30: "25.000,00",
+        new: "0",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -235,7 +325,7 @@
         image: "OnlyYou.jpg",
         discountedPrice: "20.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -245,7 +335,7 @@
         image: "MW.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -255,7 +345,7 @@
         image: "IKC.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -265,7 +355,7 @@
         image: "TILM.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -275,7 +365,7 @@
         image: "MFIL.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -285,7 +375,7 @@
         image: "TM.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -295,7 +385,7 @@
         image: "OM.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Suga & Anda",
+        mainCharacter: "Suga & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -305,7 +395,7 @@
         image: "PMA.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -315,7 +405,7 @@
         image: "DK.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -325,7 +415,7 @@
         image: "GY.png",
         discountedPrice30: "25.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -335,7 +425,7 @@
         image: "P.png",
         discountedPrice: "20.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -345,7 +435,7 @@
         image: "AWT.png",
         discountedPrice: "15.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -355,7 +445,7 @@
         image: "TL.png",
         discountedPrice: "15.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       },
@@ -365,7 +455,7 @@
         image: "DT.png",
         discountedPrice: "10.000,00",
         author: "Bearv",
-        mainCharacter: "Taehyung & Anda",
+        mainCharacter: "Taehyung & You",
         releaseYear: 2025,
         synopsis: "..."
       }
@@ -389,33 +479,40 @@
         filteredNovels.forEach(novel => {
           const card = document.createElement("div");
           card.className = "card";
+
+          const hasDiscount80 = novel.discountedPrice;
+          const hasDiscount83 = novel.discountedPrice30;
+          const isNew = novel.new;
+
+          const finalPrice = novel.discountedPrice || novel.discountedPrice30 || novel.price;
+
           card.innerHTML = `
-  <div class="discount-badge ${novel.discountedPrice ? 'show' : 'hide'}">Disc 80%</div>
-  <div class="discount-badge ${novel.discountedPrice30 ? 'show' : 'hide'}">Disc 83%</div>
-  <img src="${novel.image}" alt="${novel.title}">
-  <div class="card-content">
-    <div class="title">${novel.title}</div>
-    <div class="author"><strong>Penulis:</strong> ${novel.author || '-'}</div>
-    <div class="character"><strong>Tokoh Utama:</strong> ${novel.mainCharacter || '-'}</div>
-    <div class="year"><strong>Rilis:</strong> ${novel.releaseYear || '-'}</div>
-    <div class="synopsis"><strong>Sinopsis:</strong> ${novel.synopsis || '-'}</div>
-    ${novel.discountedPrice || novel.discountedPrice30
+      ${hasDiscount80 ? `<div class="discount-badge show">Disc 80%</div>` : ''}
+      ${hasDiscount83 ? `<div class="discount-badge show">Disc 83%</div>` : ''}
+      ${isNew ? `<div class="discount-badge show">New</div>` : ''}
+      <img src="${novel.image}" alt="${novel.title}">
+      <div class="card-content">
+        <div class="title">${novel.title}</div>
+        <div class="author"><strong>Author :</strong> ${novel.author || '-'}</div>
+        <div class="character"><strong>Main Character :</strong> ${novel.mainCharacter || '-'}</div>
+        <div class="year"><strong>Release year :</strong> ${novel.releaseYear || '-'}</div>
+        <div class="synopsis"><strong>Synopsis :</strong> ${novel.synopsis || '-'}</div>
+        ${(hasDiscount80 || hasDiscount83)
               ? `
-      <div class="old-price">Rp ${novel.price}</div>
-      <div class="price">Rp ${novel.discountedPrice || novel.discountedPrice30}</div>
-      `
+              <div class="old-price">Rp ${novel.price}</div>
+              <div class="price">Rp ${finalPrice}</div>
+            `
               : `
-      <div class="price">Rp ${novel.price}</div>
-      `
+              <div class="price">Rp ${finalPrice}</div>
+            `
             }
-    <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${novel.discountedPrice || novel.discountedPrice30 || novel.price}')">Buy</button>
-  </div>
-`;
-
-
+        <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${finalPrice}')">Buy</button>
+      </div>
+    `;
           storeContainer.appendChild(card);
         });
       }
+
 
       searchInput.addEventListener("input", () => {
         const query = searchInput.value.toLowerCase();
@@ -431,12 +528,12 @@
 
       app.innerHTML = `
       <div class="invoice">
-        <h2>Invoice Pembayaran</h2>
-        <div class="detail"><strong>Judul:</strong> ${title}</div>
-        <div class="detail"><strong>Harga:</strong> ${price}</div>
+        <h2>Payment Invoice</h2>
+        <div class="detail"><strong>Title :</strong> ${title}</div>
+        <div class="detail"><strong>Price :</strong> ${price}</div>
 
         <div class="field">
-          <label>Metode Pembayaran:</label>
+          <label>Payment Method:</label>
           <select id="paymentMethod">
             <option value="DANA">DANA</option>
             <option value="ShopeePay">ShopeePay</option>
@@ -445,12 +542,12 @@
         </div>
 
         <div class="field">
-          <label>Nomor Telepon:</label>
+          <label>Phone Number :</label>
           <input type="tel" id="phoneNumber" placeholder="08xxxxxxxxxx" required>
         </div>
 
-        <button class="pay-btn" onclick="handlePayment()">Bayar Sekarang</button>
-        <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
+        <button class="pay-btn" onclick="handlePayment()">Pay Now</button>
+        <button class="back-btn" onclick="renderStore()">Back to Store</button>
       </div>
     `;
     }
@@ -544,12 +641,12 @@
       const amount = currentOrder.price;
       app.innerHTML = `
     <div class="wallet-page">
-      <h2>Pembayaran via DANA</h2>
-      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
-      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
-      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <h2>Payment via DANA</h2>
+      <div class="detail"><strong>Destination Number :</strong> 085389311795</div>
+      <div class="detail"><strong>Transfer Amount :</strong> ${amount}</div>
+      <div class="detail">UUpload transfer proof (screenshot) :</div>
       <input type="file" id="screenshot" accept="image/*" />
-      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+      <button class="confirm-btn" onclick="submitProof()">📤 Send Proof & Confirmation</button>
     </div>
   `;
     }
@@ -559,12 +656,12 @@
       const amount = currentOrder.price;
       app.innerHTML = `
     <div class="wallet-page">
-      <h2>Pembayaran via Shopee Pay</h2>
-      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
-      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
-      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <h2>Payment via Shopee Pay</h2>
+      <div class="detail"><strong>Destination Number :</strong> 085389311795</div>
+      <div class="detail"><strong>Transfer Amount :</strong> ${amount}</div>
+      <div class="detail">Upload transfer proof (screenshot) :</div>
       <input type="file" id="screenshot" accept="image/*" />
-      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+      <button class="confirm-btn" onclick="submitProof()">📤 Send Proof & Confirmation</button>
     </div>
   `;
     }
@@ -574,12 +671,12 @@
       const amount = currentOrder.price;
       app.innerHTML = `
     <div class="wallet-page">
-      <h2>Pembayaran via Bank Transfer (BRI)</h2>
-      <div class="detail"><strong>Nomor Tujuan:</strong> 081251087547</div>
-      <div class="detail"><strong>Jumlah Transfer:</strong> ${amount}</div>
-      <div class="detail">Upload bukti transfer (screenshot):</div>
+      <h2>Payment via Bank Transfer (BRI)</h2>
+      <div class="detail"><strong>Destination Number :</strong> 081251087547</div>
+      <div class="detail"><strong>Transfer Amount :</strong> ${amount}</div>
+      <div class="detail">Upload transfer proof (screenshot) :</div>
       <input type="file" id="screenshot" accept="image/*" />
-      <button class="confirm-btn" onclick="submitProof()">📤 Kirim Bukti & Konfirmasi</button>
+      <button class="confirm-btn" onclick="submitProof()">📤 Send Proof & Confirmation</button>
     </div>
   `;
     }
@@ -588,7 +685,7 @@
     function submitProof() {
       const fileInput = document.getElementById("screenshot");
       if (fileInput.files.length === 0) {
-        alert("Upload screenshot transfer dulu ya!");
+        alert("Please upload the transfer screenshot first!");
         return;
       }
 
@@ -632,16 +729,16 @@
                 })
                 .catch((error) => {
                   console.error("Failed to send email", error);
-                  alert("Gagal mengirim email. Coba lagi.");
+                  alert("Failed to send email. Please try again.");
                 });
 
             } else {
-              alert("Gagal upload gambar ke Imgur.");
+              alert("Failed to upload image to Imgur.");
             }
           })
           .catch(err => {
             console.error("Upload error:", err);
-            alert("Upload gambar gagal.");
+            alert("Image upload failed.");
           });
       };
 
@@ -654,18 +751,142 @@
       app.innerHTML = `
     <div class="success">
       <h2>Invoice Sukses</h2>
-      <div class="detail"><strong>Nomor Pembayaran:</strong> ${invoiceNumber}</div>
-      <div class="detail"><strong>Judul:</strong> ${currentOrder.title}</div>
-      <div class="detail"><strong>Harga:</strong> ${currentOrder.price}</div>
-      <div class="detail"><strong>Metode:</strong> ${currentOrder.method}</div>
-      <div class="detail"><strong>No. Telepon:</strong> ${currentOrder.phone}</div>
-      <div class="success-message">✅ Bukti transfer berhasil dikirim!</div>
-      <button class="back-btn" onclick="renderStore()">Kembali ke Store</button>
+      <div class="detail"><strong>Payment Number :</strong> ${invoiceNumber}</div>
+      <div class="detail"><strong>Title :</strong> ${currentOrder.title}</div>
+      <div class="detail"><strong>Price :</strong> ${currentOrder.price}</div>
+      <div class="detail"><strong>Method :</strong> ${currentOrder.method}</div>
+      <div class="detail"><strong>Phone Number :</strong> ${currentOrder.phone}</div>
+      <div class="success-message">✅ Transfer proof has been successfully sent!</div>
+      <button class="back-btn" onclick="renderStore()">Back to Store</button>
     </div>
   `;
     }
 
     renderStore();
+
+    // Buat footer
+    const footer = document.createElement("footer");
+    footer.className = "footer";
+
+    // Section Official LunarScribe
+    const officialX = document.createElement("div");
+    officialX.className = "official-x";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = "★ Official LunarScribe ★";
+
+    const socialLinks = document.createElement("div");
+    socialLinks.className = "social-links";
+
+    // TikTok Link
+    const tiktokLink = document.createElement("a");
+    tiktokLink.href = "https://www.tiktok.com/@zharvian?lang=en";
+    tiktokLink.className = "social-btn";
+    tiktokLink.innerHTML = `
+      <img src="furiri1.jpg" alt="tiktok1">
+      <div class="text-container">
+        <span>Social Media – Tiktok</span>
+        <span class="username">@Zharvian</span>
+      </div>
+    `;
+
+    // Instagram Link
+    const instagramLink = document.createElement("a");
+    instagramLink.href = "https://www.instagram.com/lunarscribes/";
+    instagramLink.className = "social-btn";
+    instagramLink.innerHTML = `
+      <img src="furiri2.jpg" alt="instagram2">
+      <div class="text-container">
+        <span>Social Media – Instagram</span>
+        <span class="username">@LunarScribe</span>
+      </div>
+    `;
+
+    // Tambahkan social links
+    socialLinks.appendChild(tiktokLink);
+    socialLinks.appendChild(instagramLink);
+
+    officialX.appendChild(h3);
+    officialX.appendChild(socialLinks);
+
+    // Section Share Links
+    const shareLinks = document.createElement("div");
+    shareLinks.className = "share-links";
+
+    const shareTitle = document.createElement("p");
+    shareTitle.textContent = "SHARE";
+
+    const shareX = document.createElement("a");
+    shareX.href = "#";
+    shareX.onclick = () => share('x');
+    shareX.innerHTML = `<img src="x.png" alt="X">`;
+
+    const shareIG = document.createElement("a");
+    shareIG.href = "#";
+    shareIG.onclick = () => share('ig');
+    shareIG.innerHTML = `<img src="ig.png" alt="IG">`;
+
+    const shareTT = document.createElement("a");
+    shareTT.href = "#";
+    shareTT.onclick = () => share('tt');
+    shareTT.innerHTML = `<img src="tt.png" alt="TIKTOK">`;
+
+    shareLinks.appendChild(shareTitle);
+    shareLinks.appendChild(shareX);
+    shareLinks.appendChild(shareIG);
+    shareLinks.appendChild(shareTT);
+
+    // Footer Logo
+    const footerLogo = document.createElement("div");
+    footerLogo.className = "footer-logo";
+    footerLogo.innerHTML = `<img src="logo.png" alt="Lunar Scribe">`;
+
+    // Footer Links
+    const footerLinks = document.createElement("div");
+    footerLinks.className = "footer-links";
+
+    const linkNames = ["Zharvian", "Furina", "Indonesian", "English"];
+    linkNames.forEach(name => {
+      const a = document.createElement("a");
+      a.href = "#";
+      a.textContent = name;
+      footerLinks.appendChild(a);
+    });
+
+    // Copyright
+    const copyright = document.createElement("div");
+    copyright.className = "copyright";
+    copyright.innerHTML = `<p>&copy; LunarScribe – LunarScribeStudios</p>`;
+
+    // Gabungkan semua ke footer
+    footer.appendChild(officialX);
+    footer.appendChild(shareLinks);
+    footer.appendChild(footerLogo);
+    footer.appendChild(footerLinks);
+    footer.appendChild(copyright);
+
+    // Tambahkan footer ke halaman
+    document.body.appendChild(footer);
+
+    // Fungsi share
+    function share(platform) {
+      alert('Bagikan ke ' + platform);
+    }
+
+    function share(platform) {
+    const url = encodeURIComponent("https://lunarscribestudios.github.io/LunarScribe/");
+    let shareUrl = "";
+
+    if (platform === 'x') {
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}`;
+    } else if (platform === 'ig') {
+        shareUrl = `https://www.instagram.com/direct/new/?text=${url}`;
+    } else if (platform === 'tt') {
+        shareUrl = `https://www.tiktok.com/share?url=${url}`;
+    }
+
+    window.open(shareUrl, '_blank');
+}
   </script>
 
 </body>
