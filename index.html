@@ -535,6 +535,7 @@
         <div class="field">
           <label>Payment Method:</label>
           <select id="paymentMethod">
+            <option value="Telkomsel">Credit (Telkomsel)</option>
             <option value="DANA">DANA</option>
             <option value="ShopeePay">ShopeePay</option>
             <option value="BRI">Bank Transfer (BRI)</option>
@@ -564,13 +565,15 @@
       currentOrder.phone = phone;
       currentOrder.method = method;
 
-      if (method === "DANA" || method === "ShopeePay" || method === "BRI") {
+      if (method === "DANA" || method === "ShopeePay" || method === "BRI" || method === "Telkomsel") {
         if (method === "DANA") {
           renderDanaPage();
         } else if (method === "ShopeePay") {
           renderShopeePage();
         } else if (method === "BRI") {
           renderBRIPage();
+        } else if (method === "Telkomsel") {
+          renderTelkomPage();
         }
       }
     }
@@ -642,6 +645,21 @@
       app.innerHTML = `
     <div class="wallet-page">
       <h2>Payment via DANA</h2>
+      <div class="detail"><strong>Destination Number :</strong> 085389311795</div>
+      <div class="detail"><strong>Transfer Amount :</strong> ${amount}</div>
+      <div class="detail">UUpload transfer proof (screenshot) :</div>
+      <input type="file" id="screenshot" accept="image/*" />
+      <button class="confirm-btn" onclick="submitProof()">📤 Send Proof & Confirmation</button>
+    </div>
+  `;
+    }
+
+    // Fungsi untuk menampilkan halaman Dana dan upload screenshot
+    function renderTelkomPage() {
+      const amount = currentOrder.price;
+      app.innerHTML = `
+    <div class="wallet-page">
+      <h2>Payment via Telkomsel</h2>
       <div class="detail"><strong>Destination Number :</strong> 085389311795</div>
       <div class="detail"><strong>Transfer Amount :</strong> ${amount}</div>
       <div class="detail">UUpload transfer proof (screenshot) :</div>
