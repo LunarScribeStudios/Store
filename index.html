@@ -157,6 +157,13 @@
       text-align: center;
     }
 
+    .messagelink {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: blue;
+      text-align: left;
+    }
+
     .countdown {
       text-align: center;
       font-weight: bold;
@@ -775,7 +782,7 @@
       <div class="detail"><strong>Method :</strong> ${currentOrder.method}</div>
       <div class="detail"><strong>Phone Number :</strong> ${currentOrder.phone}</div>
       <div class="success-message">✅ Transfer proof has been successfully sent!</div>
-      <div class="success-message">You c</div>
+      <div class="messagelink"><strong>You can get the novel from this link:</strong><a href="https://t.me/+SEGp8IkzXHlhODc9" target="_blank">https://t.me/+SEGp8IkzXHlhODc9</a></div>
       <button class="back-btn" onclick="renderStore()">Back to Store</button>
     </div>
   `;
@@ -816,7 +823,7 @@
       document.body.appendChild(container); // Tambahkan ke akhir body
     }
 
-      renderTestimoniButton(); // tambahkan tombol setelah toko tampil
+    renderTestimoniButton(); // tambahkan tombol setelah toko tampil
 
 
 
