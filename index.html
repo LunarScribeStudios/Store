@@ -205,94 +205,94 @@
     }
 
     .footer {
-    background: #072f7c;
-    color: #a4c6ee;
-    text-align: center;
-    padding: 20px;
-    margin-top: 30px;
-    font-family: Arial, sans-serif;
-}
+      background: #072f7c;
+      color: #a4c6ee;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+      font-family: Arial, sans-serif;
+    }
 
-.official-x {
-    margin-bottom: 20px;
-}
+    .official-x {
+      margin-bottom: 20px;
+    }
 
-.official-x h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
+    .official-x h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
 
-.social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
 
-.social-btn {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 10px 15px;
-    border: 2px solid white;
-    text-decoration: none;
-    color: white;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.2);
-}
+    .social-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 10px 15px;
+      border: 2px solid white;
+      text-decoration: none;
+      color: white;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.2);
+    }
 
-.social-btn img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
+    .social-btn img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
 
-.social-btn .text-container {
-    display: flex;
-    flex-direction: column;
-}
+    .social-btn .text-container {
+      display: flex;
+      flex-direction: column;
+    }
 
-.social-btn .text-container span {
-    font-size: 14px;
-}
+    .social-btn .text-container span {
+      font-size: 14px;
+    }
 
-.social-btn .text-container .username {
-    font-size: 12px;
-    opacity: 0.8;
-}
+    .social-btn .text-container .username {
+      font-size: 12px;
+      opacity: 0.8;
+    }
 
-.social-btn:hover {
-    background: white;
-    color: blue;
-}
+    .social-btn:hover {
+      background: white;
+      color: blue;
+    }
 
-.share-links p {
-    margin-top: 10px;
-}
+    .share-links p {
+      margin-top: 10px;
+    }
 
-.share-links img {
-    width: 40px;
-    height: 40px;
-    margin: 10px;
-}
+    .share-links img {
+      width: 40px;
+      height: 40px;
+      margin: 10px;
+    }
 
-.footer-logo img {
-    width: 150px;
-    margin: 10px 0;
-}
+    .footer-logo img {
+      width: 150px;
+      margin: 10px 0;
+    }
 
-.footer-links a {
-    color: #a4c6ee;
-    text-decoration: none;
-    margin: 0 10px;
-}
+    .footer-links a {
+      color: #a4c6ee;
+      text-decoration: none;
+      margin: 0 10px;
+    }
 
-.copyright {
-    margin-top: 10px;
-    font-size: 0.8em;
-    opacity: 0.7;
-}
+    .copyright {
+      margin-top: 10px;
+      font-size: 0.8em;
+      opacity: 0.7;
+    }
   </style>
 </head>
 
@@ -781,7 +781,47 @@
   `;
     }
 
+    function renderTestimoniButton() {
+      const container = document.createElement("div");
+      container.style.textAlign = "center";
+      container.style.margin = "50px 0";
+
+      const button = document.createElement("button");
+      button.textContent = "💬 Lihat Testimoni Pengguna";
+      button.style.padding = "15px 30px";
+      button.style.fontSize = "1.2rem";
+      button.style.background = "linear-gradient(90deg, #007bff, #1689ff)";
+      button.style.color = "white";
+      button.style.border = "none";
+      button.style.borderRadius = "50px";
+      button.style.cursor = "pointer";
+      button.style.boxShadow = "0 8px 16px rgba(0,0,0,0.2)";
+      button.style.transition = "all 0.3s ease";
+
+      button.addEventListener("mouseover", () => {
+        button.style.transform = "scale(1.05)";
+        button.style.boxShadow = "0 12px 24px rgba(0,0,0,0.3)";
+      });
+
+      button.addEventListener("mouseout", () => {
+        button.style.transform = "scale(1)";
+        button.style.boxShadow = "0 8px 16px rgba(0,0,0,0.2)";
+      });
+
+      button.addEventListener("click", () => {
+        window.location.href = "https://lunarscribestudios.github.io/LunarScribe/";
+      });
+
+      container.appendChild(button);
+      document.body.appendChild(container); // Tambahkan ke akhir body
+    }
+
+      renderTestimoniButton(); // tambahkan tombol setelah toko tampil
+
+
+
     renderStore();
+
 
     // Buat footer
     const footer = document.createElement("footer");
@@ -905,19 +945,19 @@
     }
 
     function share(platform) {
-    const url = encodeURIComponent("https://lunarscribestudios.github.io/LunarScribe/");
-    let shareUrl = "";
+      const url = encodeURIComponent("https://lunarscribestudios.github.io/LunarScribe/");
+      let shareUrl = "";
 
-    if (platform === 'x') {
+      if (platform === 'x') {
         shareUrl = `https://twitter.com/intent/tweet?url=${url}`;
-    } else if (platform === 'ig') {
+      } else if (platform === 'ig') {
         shareUrl = `https://www.instagram.com/direct/new/?text=${url}`;
-    } else if (platform === 'tt') {
+      } else if (platform === 'tt') {
         shareUrl = `https://www.tiktok.com/share?url=${url}`;
-    }
+      }
 
-    window.open(shareUrl, '_blank');
-}
+      window.open(shareUrl, '_blank');
+    }
   </script>
 
 </body>
