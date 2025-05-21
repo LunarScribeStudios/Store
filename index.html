@@ -97,7 +97,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .price {
+    .price, .coming {
       color: #00a86b;
       margin-bottom: 0.8rem;
       margin-top: auto;
@@ -106,7 +106,9 @@
     .buy-btn,
     .pay-btn,
     .back-btn,
+    .coming-soon-text,
     .confirm-btn {
+      text-align: center;
       margin-top: auto;
       display: block;
       width: 100%;
@@ -317,9 +319,19 @@
 
     const novels = [
       {
+        title: "Stay Beside Me",
+        coming: "Coming Soon",
+        image: "sbm.png",
+        comingsoon: "0",
+        author: "Bearv",
+        mainCharacter: "Coming Soon",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
         title: "1 Miliar Satu Malam",
         price: "20.000,00",
-        image: "1m1m.jpg",
+        image: "1m1m.png",
         new: "0",
         author: "Bearv",
         mainCharacter: "Taehyung & You",
@@ -490,13 +502,17 @@
           const hasDiscount80 = novel.discountedPrice;
           const hasDiscount83 = novel.discountedPrice30;
           const isNew = novel.new;
+          const comingsoon = novel.comingsoon;
 
           const finalPrice = novel.discountedPrice || novel.discountedPrice30 || novel.price;
+
+          const isComingSoon = !novel.discountedPrice && !novel.discountedPrice30 && !novel.price;
 
           card.innerHTML = `
       ${hasDiscount80 ? `<div class="discount-badge show">Disc 80%</div>` : ''}
       ${hasDiscount83 ? `<div class="discount-badge show">Disc 83%</div>` : ''}
       ${isNew ? `<div class="discount-badge show">New</div>` : ''}
+      ${comingsoon ? `<div class="discount-badge show">Coming Soon</div>` : ''}
       <img src="${novel.image}" alt="${novel.title}">
       <div class="card-content">
         <div class="title">${novel.title}</div>
@@ -504,21 +520,27 @@
         <div class="character"><strong>Main Character :</strong> ${novel.mainCharacter || '-'}</div>
         <div class="year"><strong>Release year :</strong> ${novel.releaseYear || '-'}</div>
         <div class="synopsis"><strong>Synopsis :</strong> ${novel.synopsis || '-'}</div>
-        ${(hasDiscount80 || hasDiscount83)
-              ? `
-              <div class="old-price">Rp ${novel.price}</div>
-              <div class="price">Rp ${finalPrice}</div>
-            `
-              : `
-              <div class="price">Rp ${finalPrice}</div>
-            `
+
+        ${isComingSoon
+              ? `<div class="coming">Coming Soon</div>`
+              : (hasDiscount80 || hasDiscount83)
+                ? `
+                <div class="old-price">Rp ${novel.price}</div>
+                <div class="price">Rp ${finalPrice}</div>
+              `
+                : `<div class="price">Rp ${finalPrice}</div>`
             }
-        <button class="buy-btn" onclick="renderInvoice('${novel.title}', '${finalPrice}')">Buy</button>
+
+        ${isComingSoon 
+  ? `<span class="coming-soon-text">...</span>` 
+  : `<button class="buy-btn" onclick="renderInvoice('${novel.title}', 'Rp ${finalPrice}')">Buy</button>`}
+
       </div>
     `;
           storeContainer.appendChild(card);
         });
       }
+
 
 
       searchInput.addEventListener("input", () => {
