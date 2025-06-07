@@ -319,6 +319,16 @@
 
     const novels = [
       {
+        title: "Choose Any 5 Novels",
+        price: "35.000,00",
+        image: "5N.jpg",
+        promo:"0",
+        author: "Bearv",
+        mainCharacter: "You",
+        releaseYear: 2025,
+        synopsis: "..."
+      },
+      {
         title: "Stay Beside Me",
         coming: "Coming Soon",
         image: "sbm.png",
@@ -503,6 +513,7 @@
           const hasDiscount83 = novel.discountedPrice30;
           const isNew = novel.new;
           const comingsoon = novel.comingsoon;
+          const promo = novel.promo;
 
           const finalPrice = novel.discountedPrice || novel.discountedPrice30 || novel.price;
 
@@ -513,6 +524,7 @@
       ${hasDiscount83 ? `<div class="discount-badge show">Disc 83%</div>` : ''}
       ${isNew ? `<div class="discount-badge show">New</div>` : ''}
       ${comingsoon ? `<div class="discount-badge show">Coming Soon</div>` : ''}
+      ${promo ? `<div class="discount-badge show">Promo</div>` : ''}
       <img src="${novel.image}" alt="${novel.title}">
       <div class="card-content">
         <div class="title">${novel.title}</div>
